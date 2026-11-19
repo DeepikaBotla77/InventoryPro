@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getSettings, updateSettings } from '../api/settings';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { HiOutlineCheck, HiOutlineCog, HiOutlineInformationCircle } from 'react-icons/hi';
+import { HiOutlineCheck, HiOutlineCog, HiOutlineInformationCircle, HiOutlineShieldCheck } from 'react-icons/hi';
 
 export default function Settings() {
   const [threshold, setThreshold] = useState(10);
@@ -47,48 +47,58 @@ export default function Settings() {
     }
   };
 
-  if (loading) return <LoadingSpinner />;
+  if (loading) return <LoadingSpinner message="Loading Settings..." />;
 
   return (
     <div className="max-w-3xl mx-auto space-y-6 animate-in fade-in duration-200">
-      <div>
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
-          <HiOutlineCog className="w-7 h-7 text-blue-600" />
+      {/* Header Banner */}
+      <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs">
+        <span className="text-[11px] font-bold text-teal-600 uppercase tracking-widest">
+          Workspace Preferences
+        </span>
+        <h2 className="text-xl sm:text-2xl font-black text-[#172554] tracking-tight mt-0.5 flex items-center gap-2.5">
+          <HiOutlineCog className="w-7 h-7 text-teal-600" />
           <span>Organization Settings</span>
         </h2>
-        <p className="text-xs sm:text-sm text-gray-500 mt-0.5">
-          Configure default thresholds and global preferences for your inventory system
+        <p className="text-xs sm:text-sm text-slate-500 mt-1">
+          Configure default thresholds and global inventory monitoring policies for your multi-tenant workspace.
         </p>
       </div>
 
       {error && (
-        <div className="p-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl">
+        <div className="p-4 bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm rounded-2xl font-medium">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm rounded-xl flex items-center gap-2 font-medium">
-          <HiOutlineCheck className="w-5 h-5 text-emerald-600 flex-shrink-0" />
-          <span>Organization settings saved successfully.</span>
+        <div className="p-4 bg-teal-50 border border-teal-200 text-teal-800 text-xs sm:text-sm rounded-2xl flex items-center gap-2.5 font-bold shadow-xs">
+          <HiOutlineCheck className="w-5 h-5 text-teal-600 flex-shrink-0 stroke-2" />
+          <span>Organization settings successfully saved and applied.</span>
         </div>
       )}
 
-      <div className="bg-white rounded-2xl shadow-xs border border-gray-200/80 p-6 sm:p-8">
+      {/* Main Settings Card */}
+      <div className="bg-white rounded-3xl shadow-xs border border-slate-200/80 p-6 sm:p-8">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider">
-              Inventory Alert Defaults
-            </h3>
-            <p className="text-xs text-gray-500 mt-1">
-              Set the organization-wide baseline threshold for low-stock warnings.
-            </p>
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center font-bold">
+              <HiOutlineShieldCheck className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-[#172554] uppercase tracking-wider">
+                Automated Stock Alerts
+              </h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Baseline threshold triggering low-stock warnings across the dashboard.
+              </p>
+            </div>
           </div>
 
-          <div className="max-w-sm pt-4 border-t border-gray-100">
+          <div className="max-w-md pt-5 border-t border-slate-100">
             <label
               htmlFor="threshold"
-              className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5"
+              className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5"
             >
               Default Low-Stock Threshold (Units)
             </label>
@@ -99,21 +109,21 @@ export default function Settings() {
               value={threshold}
               onChange={(e) => setThreshold(e.target.value)}
               required
-              className="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl text-sm font-bold text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-extrabold text-[#172554] focus:bg-white focus:border-teal-600 focus:ring-4 focus:ring-teal-500/15 outline-none transition-all"
             />
-            <div className="mt-2.5 p-3 rounded-xl bg-blue-50/60 border border-blue-100/70 flex items-start gap-2 text-xs text-blue-700">
-              <HiOutlineInformationCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+            <div className="mt-3 p-3.5 rounded-2xl bg-teal-50/70 border border-teal-200/80 flex items-start gap-2.5 text-xs text-teal-900 leading-relaxed">
+              <HiOutlineInformationCircle className="w-4 h-4 flex-shrink-0 text-teal-600 mt-0.5" />
               <span>
-                Any product that does not specify an individual custom threshold will automatically inherit this value.
+                Any product that does not specify an individual custom threshold will automatically inherit this value. Changing this immediately updates dashboard indicators.
               </span>
             </div>
           </div>
 
-          <div className="pt-4 border-t border-gray-100">
+          <div className="pt-5 border-t border-slate-100">
             <button
               type="submit"
               disabled={saving}
-              className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold text-sm rounded-xl shadow-xs hover:shadow transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white font-bold text-sm rounded-xl shadow-xs shadow-teal-600/25 hover:shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               {saving ? 'Saving...' : 'Save Settings'}
             </button>

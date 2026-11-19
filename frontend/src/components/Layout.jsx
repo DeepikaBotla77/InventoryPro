@@ -8,8 +8,8 @@ export default function Layout() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50/70 text-slate-800 antialiased flex">
-      {/* Collapsible / Mobile Responsive Sidebar */}
+    <div className="min-h-screen bg-[#F1F5F9] text-slate-900 antialiased flex selection:bg-teal-500 selection:text-white">
+      {/* Collapsible & Mobile-Responsive Sidebar */}
       <Sidebar
         mobileOpen={mobileOpen}
         onMobileClose={() => setMobileOpen(false)}
@@ -17,7 +17,7 @@ export default function Layout() {
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
 
-      {/* Main Content Area */}
+      {/* Main App Content Viewport */}
       <div
         className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out ${
           sidebarCollapsed ? 'md:ml-20' : 'md:ml-64'
@@ -30,7 +30,7 @@ export default function Layout() {
           sidebarCollapsed={sidebarCollapsed}
         />
 
-        {/* Page Content */}
+        {/* Page Content Container */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
           <Outlet />
         </main>

@@ -1,32 +1,64 @@
-import { HiOutlineExclamation } from 'react-icons/hi';
+import { HiOutlineExclamation, HiOutlineTrash } from 'react-icons/hi';
 
-export default function DeleteModal({ product, onCancel, onConfirm }) {
+export default function DeleteModal({ product, onCancel, onConfirm, deleting = false }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-white rounded-xl shadow-lg max-w-md w-full mx-4 p-6">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-            <HiOutlineExclamation className="w-6 h-6 text-red-600" />
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-xs p-4 animate-in fade-in duration-150"
+      onClick={onCancel}
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        className="bg-white rounded-3xl shadow-2xl border border-slate-100 max-w-md w-full p-6 sm:p-8 animate-in zoom-in-95 duration-200"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 border border-rose-100 flex items-center justify-center flex-shrink-0 shadow-xs">
+            <HiOutlineExclamation className="w-6 h-6 stroke-2" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-900">Delete Product</h3>
+          <div className="min-w-0 flex-1">
+            <h3 className="text-lg font-bold text-[#172554] tracking-tight">
+              Delete Product
+            </h3>
+            <p className="text-xs text-slate-500 mt-0.5">
+              This action cannot be undone.
+            </p>
+          </div>
         </div>
-        <p className="text-gray-600 mb-6">
-          Are you sure you want to delete{' '}
-          <span className="font-semibold text-gray-900">{product?.name}</span>? This action cannot
-          be undone.
+
+        <div className="mt-5 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Target Item</p>
+          <p className="text-sm font-bold text-[#172554] mt-0.5 truncate">
+            {product?.name}
+          </p>
+          {product?.sku && (
+            <p className="text-xs font-mono text-slate-500 mt-0.5">
+              SKU: {product.sku}
+            </p>
+          )}
+        </div>
+
+        <p className="text-xs text-slate-600 mt-4 leading-relaxed">
+          Deleting this item will permanently remove it from your organization&apos;s product catalog and adjust your dashboard metrics.
         </p>
-        <div className="flex justify-end gap-3">
+
+        <div className="flex items-center justify-end gap-3 mt-6 pt-5 border-t border-slate-100">
           <button
+            type="button"
             onClick={onCancel}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+            disabled={deleting}
+            className="px-4 py-2.5 text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors disabled:opacity-50 cursor-pointer"
           >
             Cancel
           </button>
           <button
+            type="button"
             onClick={onConfirm}
-            className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors"
+            disabled={deleting}
+            className="inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold text-white bg-rose-600 hover:bg-rose-700 rounded-xl shadow-sm shadow-rose-600/30 transition-all hover:shadow-md disabled:opacity-50 cursor-pointer"
           >
-            Delete
+            <HiOutlineTrash className="w-4 h-4" />
+            <span>{deleting ? 'Deleting...' : 'Delete Item'}</span>
           </button>
         </div>
       </div>

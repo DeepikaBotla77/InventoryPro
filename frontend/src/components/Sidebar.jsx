@@ -30,7 +30,7 @@ export default function Sidebar({
       {/* Mobile Backdrop */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-40 md:hidden transition-opacity"
+          className="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-40 md:hidden transition-opacity"
           onClick={onMobileClose}
           aria-hidden="true"
         />
@@ -38,24 +38,24 @@ export default function Sidebar({
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-40 flex flex-col bg-white border-r border-gray-200/90 transition-all duration-300 ease-in-out
+        className={`fixed top-0 bottom-0 left-0 z-40 flex flex-col bg-[#172554] border-r border-[#1E3A5F] shadow-xl transition-all duration-300 ease-in-out text-white
           ${mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
           ${collapsed ? 'md:w-20' : 'w-64'}
         `}
       >
         {/* Brand Header */}
-        <div className="flex items-center justify-between h-16 px-4 border-b border-gray-100">
+        <div className="flex items-center justify-between h-18 px-4 border-b border-[#1E3A5F]/90 bg-[#172554]">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center flex-shrink-0 shadow-sm shadow-blue-500/20 text-white font-bold">
-              <HiOutlineCube className="w-6 h-6" />
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-500 to-teal-600 flex items-center justify-center flex-shrink-0 shadow-md shadow-teal-600/25 text-white font-bold ring-2 ring-teal-400/20">
+              <HiOutlineCube className="w-6 h-6 stroke-2" />
             </div>
             {!collapsed && (
               <div className="flex flex-col min-w-0">
-                <span className="text-lg font-bold text-gray-900 tracking-tight leading-tight">
-                  StockFlow
+                <span className="text-lg font-extrabold text-white tracking-tight leading-tight">
+                  Inventory<span className="text-teal-400">Pro</span>
                 </span>
-                <span className="text-[11px] font-medium text-blue-600 uppercase tracking-wider">
-                  SaaS Inventory
+                <span className="text-[10px] font-bold text-teal-300/80 uppercase tracking-widest">
+                  Enterprise SaaS
                 </span>
               </div>
             )}
@@ -65,28 +65,28 @@ export default function Sidebar({
           <button
             type="button"
             onClick={onMobileClose}
-            className="p-1.5 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-100 md:hidden"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-[#1E3A5F] md:hidden transition-colors"
             aria-label="Close sidebar"
           >
             <HiOutlineX className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Organization Pill (when expanded) */}
+        {/* Organization Badge (when expanded) */}
         {!collapsed && user?.organizationName && (
-          <div className="mx-4 mt-4 p-2.5 rounded-xl bg-blue-50/60 border border-blue-100/80 flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center flex-shrink-0">
+          <div className="mx-4 mt-4 p-3 rounded-2xl bg-[#1E3A5F]/60 border border-teal-500/20 backdrop-blur-xs flex items-center gap-3 shadow-xs">
+            <div className="w-8 h-8 rounded-xl bg-teal-500/20 text-teal-300 flex items-center justify-center flex-shrink-0 border border-teal-400/20">
               <HiOutlineOfficeBuilding className="w-4 h-4" />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-[10px] uppercase font-semibold text-blue-600 tracking-wider">Tenant Org</p>
-              <p className="text-xs font-bold text-gray-800 truncate">{user.organizationName}</p>
+              <p className="text-[10px] uppercase font-bold text-teal-400 tracking-wider">Organization</p>
+              <p className="text-xs font-bold text-white truncate">{user.organizationName}</p>
             </div>
           </div>
         )}
 
         {/* Navigation Items */}
-        <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
+        <nav className="flex-1 px-3 py-5 space-y-1.5 overflow-y-auto">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
@@ -94,10 +94,10 @@ export default function Sidebar({
               onClick={onMobileClose}
               title={collapsed ? item.label : undefined}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group ${
+                `flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-sm font-semibold transition-all group ${
                   isActive
-                    ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/20'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100/80'
+                    ? 'bg-teal-600 text-white shadow-md shadow-teal-900/40 ring-1 ring-teal-400/30'
+                    : 'text-slate-300 hover:text-white hover:bg-[#1E3A5F]/70'
                 } ${collapsed ? 'justify-center' : ''}`
               }
             >
@@ -108,12 +108,12 @@ export default function Sidebar({
         </nav>
 
         {/* Footer: Collapse button & Logout */}
-        <div className="p-3 border-t border-gray-100 space-y-1">
+        <div className="p-3 border-t border-[#1E3A5F] bg-[#121c40]/60 space-y-1.5">
           {/* Desktop collapse toggle */}
           <button
             type="button"
             onClick={onToggleCollapse}
-            className={`hidden md:flex items-center gap-3 w-full px-3 py-2 text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors ${
+            className={`hidden md:flex items-center gap-3 w-full px-3 py-2 text-xs font-medium text-slate-400 hover:text-white hover:bg-[#1E3A5F] rounded-xl transition-colors ${
               collapsed ? 'justify-center' : ''
             }`}
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
@@ -132,12 +132,12 @@ export default function Sidebar({
           <button
             type="button"
             onClick={logout}
-            className={`flex items-center gap-3 w-full px-3 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50/80 rounded-xl transition-colors ${
+            className={`flex items-center gap-3 w-full px-3 py-2.5 text-xs sm:text-sm font-semibold text-rose-300 hover:text-white hover:bg-rose-500/20 rounded-xl transition-colors ${
               collapsed ? 'justify-center' : ''
             }`}
             title={collapsed ? 'Sign Out' : undefined}
           >
-            <HiOutlineLogout className="w-5 h-5 flex-shrink-0" />
+            <HiOutlineLogout className="w-5 h-5 flex-shrink-0 text-rose-400" />
             {!collapsed && <span className="truncate">Sign Out</span>}
           </button>
         </div>

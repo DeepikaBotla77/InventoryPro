@@ -7,16 +7,17 @@ import {
   HiOutlinePlus,
   HiOutlineOfficeBuilding,
   HiOutlineChevronDown,
+  HiOutlineCog,
 } from 'react-icons/hi';
 
 const pageTitles = {
-  '/dashboard': { title: 'Dashboard', subtitle: 'Overview & stock metrics' },
-  '/products': { title: 'Products', subtitle: 'Manage your product inventory' },
-  '/products/new': { title: 'New Product', subtitle: 'Add a new product to inventory' },
-  '/settings': { title: 'Settings', subtitle: 'Configure default thresholds & preferences' },
+  '/dashboard': { title: 'Dashboard', subtitle: 'Real-time metrics, valuation & stock alerts' },
+  '/products': { title: 'Products', subtitle: 'Manage organization inventory catalog' },
+  '/products/new': { title: 'Add Product', subtitle: 'Register a new SKU and stock quantity' },
+  '/settings': { title: 'Settings', subtitle: 'Configure low-stock alert thresholds' },
 };
 
-export default function Header({ onMobileMenuToggle, onDesktopCollapseToggle, sidebarCollapsed }) {
+export default function Header({ onMobileMenuToggle }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,8 +36,8 @@ export default function Header({ onMobileMenuToggle, onDesktopCollapseToggle, si
   }, []);
 
   const currentPage = pageTitles[location.pathname] || {
-    title: location.pathname.includes('/edit') ? 'Edit Product' : 'StockFlow',
-    subtitle: 'Inventory Management',
+    title: location.pathname.includes('/edit') ? 'Edit Product' : 'InventoryPro',
+    subtitle: 'Enterprise Inventory Management',
   };
 
   const handleLogout = () => {
@@ -47,25 +48,25 @@ export default function Header({ onMobileMenuToggle, onDesktopCollapseToggle, si
   const userInitial = user?.email ? user.email.charAt(0).toUpperCase() : 'U';
 
   return (
-    <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-gray-200/80 px-4 sm:px-6 lg:px-8 py-3.5 transition-all">
+    <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 sm:px-6 lg:px-8 py-3.5 shadow-2xs transition-all">
       <div className="flex items-center justify-between gap-4">
         {/* Left: Mobile menu button & Page Title */}
         <div className="flex items-center gap-3 sm:gap-4 min-w-0">
           <button
             type="button"
             onClick={onMobileMenuToggle}
-            className="p-2 -ml-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 md:hidden focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="p-2 -ml-2 rounded-xl text-slate-600 hover:text-[#172554] hover:bg-slate-100 md:hidden focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors"
             aria-label="Open sidebar"
           >
             <HiOutlineMenu className="w-6 h-6" />
           </button>
 
           <div className="min-w-0">
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight truncate">
+            <h1 className="text-xl sm:text-2xl font-black text-[#172554] tracking-tight truncate">
               {currentPage.title}
             </h1>
-            <p className="hidden sm:block text-xs sm:text-sm text-gray-500 truncate">
-              Welcome back, <span className="font-medium text-gray-700">{user?.organizationName || user?.email}</span> &bull; {currentPage.subtitle}
+            <p className="hidden sm:block text-xs text-slate-500 truncate mt-0.5">
+              <span className="font-semibold text-slate-700">{user?.organizationName || user?.email}</span> &bull; {currentPage.subtitle}
             </p>
           </div>
         </div>
@@ -74,7 +75,7 @@ export default function Header({ onMobileMenuToggle, onDesktopCollapseToggle, si
         <div className="flex items-center gap-3">
           <Link
             to="/products/new"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-medium rounded-lg shadow-sm shadow-blue-500/20 transition-all hover:shadow"
+            className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-xs shadow-teal-600/20 transition-all hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
           >
             <HiOutlinePlus className="w-4 h-4 stroke-2" />
             <span>Add Product</span>
@@ -85,50 +86,51 @@ export default function Header({ onMobileMenuToggle, onDesktopCollapseToggle, si
             <button
               type="button"
               onClick={() => setProfileOpen(!profileOpen)}
-              className="flex items-center gap-2.5 p-1.5 sm:px-3 sm:py-1.5 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50/80 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex items-center gap-2.5 p-1.5 sm:px-3 sm:py-1.5 rounded-xl border border-slate-200 hover:border-teal-500/40 hover:bg-slate-50 transition-all focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
             >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white text-sm font-semibold shadow-xs">
+              <div className="w-8 h-8 rounded-xl bg-[#172554] text-teal-300 ring-2 ring-teal-500/20 flex items-center justify-center text-sm font-black shadow-2xs">
                 {userInitial}
               </div>
               <div className="hidden md:block text-left">
-                <div className="text-xs font-semibold text-gray-900 truncate max-w-[120px]">
-                  {user?.organizationName || 'My Org'}
+                <div className="text-xs font-bold text-[#172554] truncate max-w-[130px]">
+                  {user?.organizationName || 'My Organization'}
                 </div>
-                <div className="text-[11px] text-gray-500 truncate max-w-[120px]">
+                <div className="text-[11px] text-slate-500 truncate max-w-[130px]">
                   {user?.email}
                 </div>
               </div>
-              <HiOutlineChevronDown className="hidden sm:block w-4 h-4 text-gray-400" />
+              <HiOutlineChevronDown className="hidden sm:block w-4 h-4 text-slate-400" />
             </button>
 
             {/* Dropdown Menu */}
             {profileOpen && (
-              <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
-                <div className="px-4 py-2.5 border-b border-gray-100">
-                  <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">Signed in as</p>
-                  <p className="text-sm font-semibold text-gray-900 truncate mt-0.5">{user?.email}</p>
+              <div className="absolute right-0 mt-2.5 w-68 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                <div className="px-3 py-2.5 border-b border-slate-100 bg-slate-50/70 rounded-xl mb-1.5">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Active User</p>
+                  <p className="text-sm font-bold text-[#172554] truncate mt-0.5">{user?.email}</p>
                   {user?.organizationName && (
-                    <div className="flex items-center gap-1.5 mt-1 text-xs text-blue-600 font-medium">
+                    <div className="flex items-center gap-1.5 mt-1 text-xs text-teal-700 font-semibold">
                       <HiOutlineOfficeBuilding className="w-3.5 h-3.5" />
                       <span className="truncate">{user.organizationName}</span>
                     </div>
                   )}
                 </div>
 
-                <div className="py-1">
+                <div className="space-y-0.5">
                   <Link
                     to="/settings"
                     onClick={() => setProfileOpen(false)}
-                    className="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#172554] transition-colors"
                   >
+                    <HiOutlineCog className="w-4 h-4 text-slate-400" />
                     <span>Organization Settings</span>
                   </Link>
                 </div>
 
-                <div className="border-t border-gray-100 pt-1">
+                <div className="border-t border-slate-100 mt-1.5 pt-1.5">
                   <button
                     onClick={handleLogout}
-                    className="flex items-center gap-2.5 w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50/80 transition-colors font-medium"
+                    className="flex items-center gap-2.5 w-full text-left px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold text-rose-600 hover:bg-rose-50 transition-colors"
                   >
                     <HiOutlineLogout className="w-4 h-4" />
                     <span>Sign Out</span>
